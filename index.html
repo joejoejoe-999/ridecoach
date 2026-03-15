@@ -33,7 +33,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.6}
 .btn-primary{background:#1a1a1a;color:#fff;border-color:transparent}
 .btn-primary:hover{background:#333}
 .btn-sm{padding:6px 12px;font-size:12px}
-.btn-row{display:flex;gap:8px;margin-top:1rem}
+.btn-row{display:flex;gap:8px;margin-top:1rem;flex-wrap:wrap}
 .dim-preview{display:flex;flex-wrap:wrap;gap:6px;margin-top:.625rem}
 .dim-chip{font-size:11px;padding:3px 8px;border-radius:6px;background:#f0ede8;color:#555;border:1px solid #e8e4dc}
 .loading{display:none;text-align:center;padding:2.5rem}
@@ -63,19 +63,24 @@ textarea{resize:vertical;min-height:80px;line-height:1.6}
 .coach-label{font-size:11px;color:#1565c0;margin-top:.5rem;margin-bottom:4px;display:none}
 .coach-saved{font-size:13px;color:#1a1a1a;line-height:1.7;background:#e3f2fd;border-radius:8px;padding:.75rem 1rem;display:none}
 .divider{height:1px;background:#e8e6e0;margin:1.25rem 0}
-.history-item{display:flex;align-items:center;justify-content:space-between;padding:.875rem 1rem;border-radius:8px;margin-bottom:6px;background:#fff;border:1px solid #e8e6e0}
-.h-name{font-size:14px;font-weight:500}
-.h-sub{font-size:12px;color:#888;margin-top:2px}
-.badge{display:inline-block;font-size:11px;padding:3px 8px;border-radius:6px;font-weight:500}
-.badge-pending{background:#fff3e0;color:#e65100}
-.badge-done{background:#e8f5e9;color:#2e7d32}
+.share-box{background:#e8f5e9;border:1px solid #a5d6a7;border-radius:10px;padding:1rem 1.25rem;margin-top:1rem;display:none}
+.share-title{font-size:13px;font-weight:600;color:#2e7d32;margin-bottom:.5rem}
+.share-url{font-size:13px;color:#1a1a1a;background:#fff;border:1px solid #c8e6c9;border-radius:6px;padding:8px 10px;word-break:break-all;margin-bottom:.5rem}
 .empty{font-size:13px;color:#999;padding:.5rem 0}
 .error{font-size:13px;color:#c0392b;background:#fdf2f2;border-radius:8px;padding:.75rem 1rem;margin-top:.75rem;display:none;line-height:1.6}
 .tip{font-size:12px;color:#666;background:#f0ede8;border-radius:8px;padding:8px 12px;margin-bottom:.875rem;line-height:1.6}
+
+/* Report page */
+.report-page{display:none;padding:1.5rem;max-width:720px;margin:0 auto}
+.report-header{background:#1a1a1a;color:#fff;border-radius:12px;padding:1.25rem;margin-bottom:1rem}
+.report-rider{font-size:18px;font-weight:600;margin-bottom:4px}
+.report-meta{font-size:12px;opacity:.5}
 </style>
 </head>
 <body>
 
+<!-- MAIN APP -->
+<div id="mainApp">
 <div class="header">
   <div class="header-tag">AASI Level 3 · Snowboard Coaching</div>
   <h1>RideCoach</h1>
@@ -84,11 +89,9 @@ textarea{resize:vertical;min-height:80px;line-height:1.6}
 <div class="nav">
   <button class="nav-btn active" onclick="switchTab('submit',this)">新建分析</button>
   <button class="nav-btn" onclick="switchTab('coach',this)">教练审核</button>
-  <button class="nav-btn" onclick="switchTab('history',this)">历史记录</button>
 </div>
 
 <div class="tab active" id="tab-submit">
-
   <div class="card">
     <div class="card-title">学员信息</div>
     <div class="form-row">
@@ -122,7 +125,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.6}
 
   <div class="card">
     <div class="card-title">上传视频截图</div>
-    <div class="tip">💡 从视频里截取 2–4 张关键帧（入弯 / 弯中 / 弯末），AI 会根据截图 + 你的描述来分析</div>
+    <div class="tip">💡 从视频截取 2–4 张关键帧（入弯 / 弯中 / 弯末），AI 根据截图 + 描述分析</div>
     <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
       <div class="upload-icon">▶</div>
       <h3>点击上传截图</h3>
@@ -152,24 +155,33 @@ textarea{resize:vertical;min-height:80px;line-height:1.6}
     </div>
     <div id="dimList"></div>
     <div class="btn-row">
-      <button class="btn btn-primary btn-sm" onclick="publishReport()">发布给学员 ↗</button>
+      <button class="btn btn-primary btn-sm" id="publishBtn" onclick="publishReport()">发布给学员 ↗</button>
       <button class="btn btn-sm" onclick="resetForm()">新建分析</button>
     </div>
+    <div class="share-box" id="shareBox">
+      <div class="share-title">✓ 报告已发布！把这个链接发给学员：</div>
+      <div class="share-url" id="shareUrl"></div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-sm btn-primary" onclick="copyLink()">复制链接</button>
+        <button class="btn btn-sm" onclick="resetForm()">新建分析</button>
+      </div>
+    </div>
   </div>
-
 </div>
 
 <div class="tab" id="tab-coach">
-  <div style="font-size:13px;color:#888;margin-bottom:.875rem">待审核</div>
-  <div id="pendingList"></div>
-  <div class="divider"></div>
-  <div style="font-size:13px;color:#888;margin-bottom:.875rem">已发布</div>
-  <div id="doneList"></div>
+  <div style="font-size:13px;color:#888;margin-bottom:.875rem">已发布的报告</div>
+  <div id="publishedList"><p class="empty">暂无记录（刷新页面后历史会清空，后续版本会保存）</p></div>
+</div>
 </div>
 
-<div class="tab" id="tab-history">
-  <div style="font-size:13px;color:#888;margin-bottom:.875rem">全部记录</div>
-  <div id="historyList"></div>
+<!-- REPORT VIEW PAGE -->
+<div id="reportPage" class="report-page">
+  <div class="header" style="margin:-1.5rem -1.5rem 1.5rem;padding:1rem 1.5rem">
+    <div class="header-tag">AASI Level 3 · Snowboard Coaching</div>
+    <h1>RideCoach</h1>
+  </div>
+  <div id="reportContent"></div>
 </div>
 
 <script>
@@ -190,9 +202,69 @@ const LEVEL_DIMS = {
 };
 const LEVEL_LABELS = {beginner:'初学 Beginner',intermediate:'进阶 Intermediate',advanced:'高级 Advanced'};
 
-let submissions=[], currentSub=null, uploadedImages=[];
+let currentSub=null, uploadedImages=[], publishedReports=[];
 
 function getDims(level){ return (LEVEL_DIMS[level]||LEVEL_DIMS.advanced).map(k=>ALL_DIMS.find(d=>d.key===k)).filter(Boolean); }
+
+// Check if viewing a report
+window.addEventListener('DOMContentLoaded', ()=>{
+  const params = new URLSearchParams(window.location.search);
+  const reportId = params.get('report');
+  if(reportId) loadReport(reportId);
+});
+
+async function loadReport(id){
+  document.getElementById('mainApp').style.display='none';
+  document.getElementById('reportPage').style.display='block';
+  document.getElementById('reportContent').innerHTML='<div style="text-align:center;padding:2rem;color:#888">加载中...</div>';
+  try {
+    const res = await fetch('/api/report?id='+id);
+    const data = await res.json();
+    if(!res.ok) throw new Error(data.error||'报告不存在');
+    renderReportPage(data);
+  } catch(e) {
+    document.getElementById('reportContent').innerHTML=`<div style="text-align:center;padding:2rem;color:#c0392b">${e.message}</div>`;
+  }
+}
+
+function renderReportPage(r){
+  const dims = r.dimensions||[];
+  const notes = r.coach_notes||{};
+  document.getElementById('reportContent').innerHTML = `
+    <div class="report-header">
+      <div class="report-rider">${r.rider_name}</div>
+      <div class="report-meta">${LEVEL_LABELS[r.rider_level]||r.rider_level} · ${new Date(r.created_at).toLocaleDateString('zh-CN')}${r.rider_focus?' · '+r.rider_focus:''}</div>
+    </div>
+    <div class="overall">
+      <div>
+        <div style="font-size:12px;opacity:.5">综合评分 Overall</div>
+        <div class="overall-comment">${r.overall_comment||''}</div>
+      </div>
+      <div style="text-align:right">
+        <div class="overall-score">${parseFloat(r.overall_score).toFixed(1)}</div>
+        <div style="font-size:12px;opacity:.4">/10</div>
+      </div>
+    </div>
+    ${dims.map(d=>{
+      const meta=ALL_DIMS.find(x=>x.key===d.key);
+      if(!meta) return '';
+      const note=notes[d.key]||'';
+      return `<div class="dim-card">
+        <div class="dim-header">
+          <div><div class="dim-name">${meta.zh}</div><div class="dim-en">${meta.en}</div></div>
+          <div class="score-row">
+            <div class="score-bar"><div class="score-fill" style="width:${d.score*10}%"></div></div>
+            <div class="score-num">${d.score}/10</div>
+          </div>
+        </div>
+        <div class="ai-label">◆ AI 分析</div>
+        <div class="ai-text">${d.analysis}</div>
+        ${d.drill?`<div class="drill-label">◆ 练习建议</div><div class="drill-text">${d.drill}</div>`:''}
+        ${note?`<div class="coach-label" style="display:block">◆ 教练备注</div><div class="coach-saved" style="display:block">${note}</div>`:''}
+      </div>`;
+    }).join('')}
+  `;
+}
 
 function onLevelChange(){
   const level=document.getElementById('riderLevel').value;
@@ -248,16 +320,7 @@ async function runAnalysis(){
     document.getElementById('loading').style.display='none';
     document.getElementById('result').style.display='block';
 
-    currentSub={
-      id:Date.now(),name,level,desc,focus,
-      date:new Date().toLocaleDateString('zh-CN'),
-      status:'pending',
-      avg:data.overall_score.toFixed(1),
-      overallComment:data.overall_comment,
-      dimensions:data.dimensions,
-      coachNotes:{}
-    };
-
+    currentSub={name,level,desc,focus,avg:data.overall_score.toFixed(1),overallComment:data.overall_comment,dimensions:data.dimensions,coachNotes:{}};
     document.getElementById('overallScore').textContent=currentSub.avg;
     document.getElementById('overallComment').textContent=data.overall_comment;
     renderDims(currentSub);
@@ -316,13 +379,49 @@ function saveNote(key){
   document.getElementById('save-'+key).style.display='none';
 }
 
-function publishReport(){
+async function publishReport(){
   if(!currentSub) return;
   ALL_DIMS.forEach(d=>{const e=document.getElementById('ce-'+d.key);if(e&&e.style.display==='block')saveNote(d.key);});
-  currentSub.status='done';
-  submissions.unshift(currentSub);
-  alert('报告已发布！'+currentSub.name);
-  resetForm();
+
+  const btn=document.getElementById('publishBtn');
+  btn.textContent='发布中...';
+  btn.disabled=true;
+
+  try {
+    const res=await fetch('/api/publish',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        rider_name:currentSub.name,
+        rider_level:currentSub.level,
+        rider_focus:currentSub.focus,
+        overall_score:parseFloat(currentSub.avg),
+        overall_comment:currentSub.overallComment,
+        dimensions:currentSub.dimensions,
+        coach_notes:currentSub.coachNotes
+      })
+    });
+    const data=await res.json();
+    if(!res.ok) throw new Error(data.error||'发布失败');
+
+    const reportUrl=window.location.origin+'/?report='+data.id;
+    document.getElementById('shareUrl').textContent=reportUrl;
+    document.getElementById('shareBox').style.display='block';
+    btn.style.display='none';
+
+    publishedReports.unshift({name:currentSub.name,level:currentSub.level,url:reportUrl,date:new Date().toLocaleDateString('zh-CN')});
+    renderPublished();
+
+  } catch(e){
+    showError('发布失败：'+e.message);
+    btn.textContent='发布给学员 ↗';
+    btn.disabled=false;
+  }
+}
+
+function copyLink(){
+  const url=document.getElementById('shareUrl').textContent;
+  navigator.clipboard.writeText(url).then(()=>alert('链接已复制！'));
 }
 
 function resetForm(){
@@ -333,7 +432,12 @@ function resetForm(){
   document.getElementById('uploadZone').classList.remove('has-file');
   document.getElementById('fileInput').value='';
   document.getElementById('result').style.display='none';
+  document.getElementById('shareBox').style.display='none';
   document.getElementById('errorMsg').style.display='none';
+  const btn=document.getElementById('publishBtn');
+  btn.textContent='发布给学员 ↗';
+  btn.disabled=false;
+  btn.style.display='inline-flex';
   uploadedImages=[];currentSub=null;
 }
 
@@ -342,24 +446,15 @@ function switchTab(name,btn){
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+name).classList.add('active');
   btn.classList.add('active');
-  if(name==='coach') renderCoach();
-  if(name==='history') renderHistory();
 }
 
-function historyCard(s){
-  const b=s.status==='pending'?'<span class="badge badge-pending">待审核</span>':'<span class="badge badge-done">已发布</span>';
-  return `<div class="history-item"><div><div class="h-name">${s.name}</div><div class="h-sub">${LEVEL_LABELS[s.level]||s.level} · ${s.date}${s.focus?' · '+s.focus:''}</div></div><div style="text-align:right">${b}<div style="font-size:12px;color:#999;margin-top:4px">avg ${s.avg}/10</div></div></div>`;
-}
-
-function renderCoach(){
-  const p=submissions.filter(s=>s.status==='pending');
-  const d=submissions.filter(s=>s.status==='done');
-  document.getElementById('pendingList').innerHTML=p.length?p.map(historyCard).join(''):'<p class="empty">暂无待审核</p>';
-  document.getElementById('doneList').innerHTML=d.length?d.map(historyCard).join(''):'<p class="empty">暂无已发布</p>';
-}
-
-function renderHistory(){
-  document.getElementById('historyList').innerHTML=submissions.length?submissions.map(historyCard).join(''):'<p class="empty">暂无记录</p>';
+function renderPublished(){
+  document.getElementById('publishedList').innerHTML=publishedReports.length
+    ? publishedReports.map(r=>`<div style="background:#fff;border:1px solid #e8e6e0;border-radius:8px;padding:.875rem 1rem;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between">
+        <div><div style="font-size:14px;font-weight:500">${r.name}</div><div style="font-size:12px;color:#888;margin-top:2px">${LEVEL_LABELS[r.level]||r.level} · ${r.date}</div></div>
+        <a href="${r.url}" target="_blank" style="font-size:12px;color:#1565c0;text-decoration:none">查看报告 →</a>
+      </div>`).join('')
+    : '<p style="font-size:13px;color:#999">暂无记录</p>';
 }
 </script>
 </body>
