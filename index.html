@@ -1,7 +1,3 @@
-
-bash
-
-cat > /mnt/user-data/outputs/index.html << 'HTMLEOF'
 <!DOCTYPE html>
 <html lang="zh">
 <head>
@@ -11,16 +7,16 @@ cat > /mnt/user-data/outputs/index.html << 'HTMLEOF'
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f3;color:#1a1a1a;min-height:100vh}
-.header{background:#1a1a1a;color:#fff;padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between}
+.header{background:#1a1a1a;color:#fff;padding:1rem 1.5rem}
 .header h1{font-size:18px;font-weight:600;letter-spacing:-.02em}
-.header-tag{font-size:11px;opacity:.5;letter-spacing:.1em;text-transform:uppercase}
+.header-tag{font-size:11px;opacity:.5;letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px}
 .nav{display:flex;gap:4px;background:#fff;border-bottom:1px solid #e8e6e0;padding:0 1.5rem}
 .nav-btn{font-size:13px;padding:10px 16px;border:none;background:transparent;cursor:pointer;color:#888;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
 .nav-btn.active{color:#1a1a1a;border-bottom-color:#1a1a1a;font-weight:500}
 .nav-btn:hover{color:#1a1a1a}
 .tab{display:none;padding:1.5rem;max-width:720px;margin:0 auto}.tab.active{display:block}
 .card{background:#fff;border-radius:12px;border:1px solid #e8e6e0;padding:1.25rem;margin-bottom:1rem}
-.card-title{font-size:14px;font-weight:600;margin-bottom:.875rem;color:#1a1a1a}
+.card-title{font-size:14px;font-weight:600;margin-bottom:.875rem}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:.875rem}
 .form-label{font-size:12px;font-weight:500;color:#666;margin-bottom:4px;display:block}
 input,select,textarea{width:100%;font-size:14px;padding:9px 12px;border:1px solid #e0ddd6;border-radius:8px;background:#fff;color:#1a1a1a;outline:none;transition:border .15s;font-family:inherit}
@@ -38,13 +34,9 @@ textarea{resize:vertical;min-height:80px;line-height:1.6}
 .btn-primary:hover{background:#333}
 .btn-sm{padding:6px 12px;font-size:12px}
 .btn-row{display:flex;gap:8px;margin-top:1rem}
-.level-badge{display:inline-block;font-size:11px;padding:3px 8px;border-radius:6px;font-weight:500;margin-bottom:.75rem}
-.level-beginner{background:#e8f5e9;color:#2e7d32}
-.level-intermediate{background:#fff3e0;color:#e65100}
-.level-advanced{background:#e3f2fd;color:#1565c0}
 .dim-preview{display:flex;flex-wrap:wrap;gap:6px;margin-top:.625rem}
 .dim-chip{font-size:11px;padding:3px 8px;border-radius:6px;background:#f0ede8;color:#555;border:1px solid #e8e4dc}
-.loading{display:none;text-align:center;padding:2rem}
+.loading{display:none;text-align:center;padding:2.5rem}
 .loading p{font-size:14px;color:#666;margin-top:.875rem;line-height:1.7}
 .dot-anim span{display:inline-block;width:7px;height:7px;border-radius:50%;background:#1a1a1a;margin:0 2px;animation:bounce 1.2s infinite}
 .dot-anim span:nth-child(2){animation-delay:.2s}
@@ -52,9 +44,8 @@ textarea{resize:vertical;min-height:80px;line-height:1.6}
 @keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-7px)}}
 .result{display:none}
 .overall{background:#1a1a1a;color:#fff;border-radius:10px;padding:1rem 1.25rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between}
-.overall-label{font-size:12px;opacity:.6}
 .overall-score{font-size:28px;font-weight:700}
-.overall-comment{font-size:13px;opacity:.8;margin-top:4px;line-height:1.5}
+.overall-comment{font-size:13px;opacity:.75;margin-top:4px;line-height:1.5}
 .dim-card{background:#fff;border:1px solid #e8e6e0;border-radius:10px;padding:1rem 1.25rem;margin-bottom:.75rem}
 .dim-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.625rem}
 .dim-name{font-size:14px;font-weight:600}
@@ -80,15 +71,14 @@ textarea{resize:vertical;min-height:80px;line-height:1.6}
 .badge-done{background:#e8f5e9;color:#2e7d32}
 .empty{font-size:13px;color:#999;padding:.5rem 0}
 .error{font-size:13px;color:#c0392b;background:#fdf2f2;border-radius:8px;padding:.75rem 1rem;margin-top:.75rem;display:none;line-height:1.6}
+.tip{font-size:12px;color:#666;background:#f0ede8;border-radius:8px;padding:8px 12px;margin-bottom:.875rem;line-height:1.6}
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div>
-    <div class="header-tag">AASI Level 3 · Snowboard Coaching</div>
-    <h1>RideCoach</h1>
-  </div>
+  <div class="header-tag">AASI Level 3 · Snowboard Coaching</div>
+  <h1>RideCoach</h1>
 </div>
 
 <div class="nav">
@@ -125,39 +115,39 @@ textarea{resize:vertical;min-height:80px;line-height:1.6}
       <input type="text" id="riderFocus" placeholder="e.g. 换刃流畅度 / heel-side entry">
     </div>
     <div id="levelInfo" style="display:none;margin-top:.875rem">
+      <div style="font-size:12px;color:#888;margin-bottom:6px">此水平分析维度：</div>
       <div class="dim-preview" id="dimPreview"></div>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-title">上传视频截图（关键帧）</div>
+    <div class="card-title">上传视频截图</div>
+    <div class="tip">💡 从视频里截取 2–4 张关键帧（入弯 / 弯中 / 弯末），AI 会根据截图 + 你的描述来分析</div>
     <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
       <div class="upload-icon">▶</div>
-      <h3>点击上传截图或关键帧</h3>
-      <p>JPG · PNG · 建议 2–4 张（入弯 / 弯中 / 弯末）</p>
+      <h3>点击上传截图</h3>
+      <p>JPG · PNG · 最多4张</p>
       <input type="file" id="fileInput" accept="image/*" multiple style="display:none" onchange="handleFiles(this)">
     </div>
-    <div id="fileNames" style="font-size:12px;color:#888;display:none"></div>
-    <div class="btn-row">
-      <button class="btn btn-primary" onclick="runAnalysis()">开始 AI 分析 ↗</button>
-    </div>
+    <div id="fileNames" style="font-size:12px;color:#666;display:none;margin-bottom:.875rem"></div>
+    <button class="btn btn-primary" onclick="runAnalysis()">开始 AI 分析 ↗</button>
     <div class="error" id="errorMsg"></div>
   </div>
 
   <div class="loading" id="loading">
     <div class="dot-anim"><span></span><span></span><span></span></div>
-    <p>Gemini 正在分析视频截图...<br>按 <span id="levelLabel"></span> 维度评估中，请稍候</p>
+    <p>Claude 正在分析截图...<br>按 <span id="levelLabel"></span> 维度评估中，请稍候</p>
   </div>
 
   <div class="result" id="result">
     <div class="overall">
       <div>
-        <div class="overall-label">综合评分 Overall Score</div>
+        <div style="font-size:12px;opacity:.5">综合评分 Overall</div>
         <div class="overall-comment" id="overallComment"></div>
       </div>
       <div style="text-align:right">
         <div class="overall-score" id="overallScore"></div>
-        <div style="font-size:12px;opacity:.5">/10</div>
+        <div style="font-size:12px;opacity:.4">/10</div>
       </div>
     </div>
     <div id="dimList"></div>
@@ -183,8 +173,6 @@ textarea{resize:vertical;min-height:80px;line-height:1.6}
 </div>
 
 <script>
-const GEMINI_API_KEY = 'AIzaSyDiS-Cn8CPbm4DnfVEf4Nqk3JvfauLzuR4';
-
 const ALL_DIMS = [
   {key:'foreaft',     zh:'前后平衡',   en:'Fore/Aft Balance'},
   {key:'initiation',  zh:'转弯驱动',   en:'Turn Initiation'},
@@ -195,131 +183,98 @@ const ALL_DIMS = [
   {key:'separation',  zh:'上下身分离', en:'Upper/Lower Separation'},
   {key:'torsional',   zh:'拧板',       en:'Torsional Flex'}
 ];
-
 const LEVEL_DIMS = {
   beginner:     ['foreaft','flex','vision'],
   intermediate: ['foreaft','initiation','edge','flex','pressure','vision','torsional'],
   advanced:     ['foreaft','initiation','edge','flex','pressure','vision','separation','torsional']
 };
+const LEVEL_LABELS = {beginner:'初学 Beginner',intermediate:'进阶 Intermediate',advanced:'高级 Advanced'};
 
-const LEVEL_LABELS = {beginner:'初学 Beginner', intermediate:'进阶 Intermediate', advanced:'高级 Advanced'};
-
-let submissions = [], currentSub = null, uploadedImages = [];
+let submissions=[], currentSub=null, uploadedImages=[];
 
 function getDims(level){ return (LEVEL_DIMS[level]||LEVEL_DIMS.advanced).map(k=>ALL_DIMS.find(d=>d.key===k)).filter(Boolean); }
 
 function onLevelChange(){
-  const level = document.getElementById('riderLevel').value;
-  const info = document.getElementById('levelInfo');
-  if(!level){ info.style.display='none'; return; }
-  const dims = getDims(level);
-  document.getElementById('dimPreview').innerHTML = dims.map(d=>`<span class="dim-chip">${d.zh}</span>`).join('');
-  info.style.display = 'block';
+  const level=document.getElementById('riderLevel').value;
+  const info=document.getElementById('levelInfo');
+  if(!level){info.style.display='none';return;}
+  document.getElementById('dimPreview').innerHTML=getDims(level).map(d=>`<span class="dim-chip">${d.zh}</span>`).join('');
+  info.style.display='block';
 }
 
 function handleFiles(input){
-  uploadedImages = [];
-  const names = [];
-  const readers = Array.from(input.files).map(f => new Promise(res=>{
+  uploadedImages=[];
+  const names=[];
+  const readers=Array.from(input.files).slice(0,4).map(f=>new Promise(res=>{
     names.push(f.name);
-    const r = new FileReader();
-    r.onload = e => { uploadedImages.push({b64:e.target.result.split(',')[1], mt:f.type||'image/jpeg'}); res(); };
+    const r=new FileReader();
+    r.onload=e=>{uploadedImages.push({b64:e.target.result.split(',')[1],mt:f.type||'image/jpeg'});res();};
     r.readAsDataURL(f);
   }));
   Promise.all(readers).then(()=>{
-    const el = document.getElementById('fileNames');
-    el.textContent = '已选择：' + names.join(', ');
-    el.style.display = 'block';
+    const el=document.getElementById('fileNames');
+    el.textContent='已选择：'+names.join(', ');
+    el.style.display='block';
     document.getElementById('uploadZone').classList.add('has-file');
   });
 }
 
 async function runAnalysis(){
-  const name = document.getElementById('riderName').value.trim();
-  const level = document.getElementById('riderLevel').value;
-  const desc = document.getElementById('riderDesc').value.trim();
-  const focus = document.getElementById('riderFocus').value.trim();
-  const errEl = document.getElementById('errorMsg');
-  errEl.style.display = 'none';
+  const name=document.getElementById('riderName').value.trim();
+  const level=document.getElementById('riderLevel').value;
+  const desc=document.getElementById('riderDesc').value.trim();
+  const focus=document.getElementById('riderFocus').value.trim();
+  const errEl=document.getElementById('errorMsg');
+  errEl.style.display='none';
 
-  if(!name){ showError('请输入学员姓名'); return; }
-  if(!level){ showError('请选择学员水平'); return; }
-  if(!desc){ showError('请描述视频内容'); return; }
+  if(!name){showError('请输入学员姓名');return;}
+  if(!level){showError('请选择学员水平');return;}
+  if(!desc){showError('请描述视频内容');return;}
 
-  const dims = getDims(level);
-  document.getElementById('levelLabel').textContent = LEVEL_LABELS[level];
-  document.getElementById('loading').style.display = 'block';
-  document.getElementById('result').style.display = 'none';
-
-  const dimList = dims.map(d=>`- ${d.zh} (${d.en})`).join('\n');
-  const prompt = `你是一位 AASI（美国单板滑雪教练协会）3级认证教练。请根据以下学员信息和上传的视频截图，按指定维度进行分析。
-
-学员姓名：${name}
-水平：${LEVEL_LABELS[level]}
-视频描述：${desc}
-改进重点：${focus||'综合提升'}
-
-请严格按以下${dims.length}个维度分析，返回纯JSON格式，不要有任何其他文字：
-
-{
-  "overall_score": <1-10的数字>,
-  "overall_comment": "<一句话中文总结>",
-  "dimensions": [
-${dims.map(d=>`    {"key":"${d.key}","score":<1-10>,"analysis":"<2-3句中文分析，具体指出观察到的问题>","drill":"<1-2句具体练习建议>"}`).join(',\n')}
-  ]
-}`;
+  const dims=getDims(level);
+  document.getElementById('levelLabel').textContent=LEVEL_LABELS[level];
+  document.getElementById('loading').style.display='block';
+  document.getElementById('result').style.display='none';
 
   try {
-    const parts = [{text: prompt}];
-    if(uploadedImages.length > 0){
-      uploadedImages.forEach(img => parts.push({inline_data:{mime_type:img.mt, data:img.b64}}));
-    }
-
-    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`, {
+    const res=await fetch('/api/analyze',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({contents:[{parts}]})
+      body:JSON.stringify({name,level,desc,focus,levelLabel:LEVEL_LABELS[level],dims,images:uploadedImages})
     });
+    const data=await res.json();
+    if(!res.ok) throw new Error(data.error||'分析失败');
 
-    if(!res.ok){ const e=await res.json(); throw new Error(e.error?.message||'API错误 '+res.status); }
-    const data = await res.json();
-    const raw = data.candidates?.[0]?.content?.parts?.[0]?.text||'';
-    const clean = raw.replace(/```json|```/g,'').trim();
-    const parsed = JSON.parse(clean);
+    document.getElementById('loading').style.display='none';
+    document.getElementById('result').style.display='block';
 
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('result').style.display = 'block';
-
-    currentSub = {
-      id: Date.now(), name, level, desc, focus,
-      date: new Date().toLocaleDateString('zh-CN'),
-      status: 'pending',
-      avg: parsed.overall_score.toFixed(1),
-      overallComment: parsed.overall_comment,
-      dimensions: parsed.dimensions,
-      coachNotes: {}
+    currentSub={
+      id:Date.now(),name,level,desc,focus,
+      date:new Date().toLocaleDateString('zh-CN'),
+      status:'pending',
+      avg:data.overall_score.toFixed(1),
+      overallComment:data.overall_comment,
+      dimensions:data.dimensions,
+      coachNotes:{}
     };
 
-    document.getElementById('overallScore').textContent = currentSub.avg;
-    document.getElementById('overallComment').textContent = parsed.overall_comment;
+    document.getElementById('overallScore').textContent=currentSub.avg;
+    document.getElementById('overallComment').textContent=data.overall_comment;
     renderDims(currentSub);
 
   } catch(e){
-    document.getElementById('loading').style.display = 'none';
-    showError('分析失败：' + e.message);
+    document.getElementById('loading').style.display='none';
+    showError('分析失败：'+e.message);
   }
 }
 
-function showError(msg){
-  const el = document.getElementById('errorMsg');
-  el.textContent = msg; el.style.display = 'block';
-}
+function showError(msg){const el=document.getElementById('errorMsg');el.textContent=msg;el.style.display='block';}
 
 function renderDims(sub){
-  document.getElementById('dimList').innerHTML = sub.dimensions.map(d=>{
-    const meta = ALL_DIMS.find(x=>x.key===d.key);
+  document.getElementById('dimList').innerHTML=sub.dimensions.map(d=>{
+    const meta=ALL_DIMS.find(x=>x.key===d.key);
     if(!meta) return '';
-    const note = sub.coachNotes[d.key]||'';
+    const note=sub.coachNotes[d.key]||'';
     return `<div class="dim-card">
       <div class="dim-header">
         <div><div class="dim-name">${meta.zh}</div><div class="dim-en">${meta.en}</div></div>
@@ -328,7 +283,7 @@ function renderDims(sub){
           <div class="score-num">${d.score}/10</div>
         </div>
       </div>
-      <div class="ai-label">◆ AI 分析</div>
+      <div class="ai-label">◆ Claude AI 分析</div>
       <div class="ai-text">${d.analysis}</div>
       ${d.drill?`<div class="drill-label">◆ 练习建议</div><div class="drill-text">${d.drill}</div>`:''}
       <textarea class="coach-edit" id="ce-${d.key}" placeholder="我的补充备注...">${note}</textarea>
@@ -343,30 +298,30 @@ function renderDims(sub){
 }
 
 function toggleEdit(key){
-  const edit = document.getElementById('ce-'+key);
-  const save = document.getElementById('save-'+key);
-  const show = edit.style.display==='block';
-  edit.style.display = show?'none':'block';
-  save.style.display = show?'none':'inline-flex';
+  const edit=document.getElementById('ce-'+key);
+  const save=document.getElementById('save-'+key);
+  const show=edit.style.display==='block';
+  edit.style.display=show?'none':'block';
+  save.style.display=show?'none':'inline-flex';
   if(!show) edit.focus();
 }
 
 function saveNote(key){
-  const val = document.getElementById('ce-'+key).value.trim();
-  if(currentSub) currentSub.coachNotes[key] = val;
-  document.getElementById('cs-'+key).textContent = val;
-  document.getElementById('cs-'+key).style.display = val?'block':'none';
-  document.getElementById('cl-'+key).style.display = val?'block':'none';
-  document.getElementById('ce-'+key).style.display = 'none';
-  document.getElementById('save-'+key).style.display = 'none';
+  const val=document.getElementById('ce-'+key).value.trim();
+  if(currentSub) currentSub.coachNotes[key]=val;
+  document.getElementById('cs-'+key).textContent=val;
+  document.getElementById('cs-'+key).style.display=val?'block':'none';
+  document.getElementById('cl-'+key).style.display=val?'block':'none';
+  document.getElementById('ce-'+key).style.display='none';
+  document.getElementById('save-'+key).style.display='none';
 }
 
 function publishReport(){
   if(!currentSub) return;
-  ALL_DIMS.forEach(d=>{ const e=document.getElementById('ce-'+d.key); if(e&&e.style.display==='block') saveNote(d.key); });
-  currentSub.status = 'done';
+  ALL_DIMS.forEach(d=>{const e=document.getElementById('ce-'+d.key);if(e&&e.style.display==='block')saveNote(d.key);});
+  currentSub.status='done';
   submissions.unshift(currentSub);
-  alert('报告已发布！' + currentSub.name);
+  alert('报告已发布！'+currentSub.name);
   resetForm();
 }
 
@@ -379,7 +334,7 @@ function resetForm(){
   document.getElementById('fileInput').value='';
   document.getElementById('result').style.display='none';
   document.getElementById('errorMsg').style.display='none';
-  uploadedImages=[]; currentSub=null;
+  uploadedImages=[];currentSub=null;
 }
 
 function switchTab(name,btn){
@@ -392,7 +347,7 @@ function switchTab(name,btn){
 }
 
 function historyCard(s){
-  const b = s.status==='pending'?'<span class="badge badge-pending">待审核</span>':'<span class="badge badge-done">已发布</span>';
+  const b=s.status==='pending'?'<span class="badge badge-pending">待审核</span>':'<span class="badge badge-done">已发布</span>';
   return `<div class="history-item"><div><div class="h-name">${s.name}</div><div class="h-sub">${LEVEL_LABELS[s.level]||s.level} · ${s.date}${s.focus?' · '+s.focus:''}</div></div><div style="text-align:right">${b}<div style="font-size:12px;color:#999;margin-top:4px">avg ${s.avg}/10</div></div></div>`;
 }
 
@@ -409,11 +364,3 @@ function renderHistory(){
 </script>
 </body>
 </html>
-HTMLEOF
-echo "Done"
-Output
-
-Done
-
-Presented file
-Done
